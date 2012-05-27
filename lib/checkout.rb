@@ -1,30 +1,20 @@
-require "#{File.dirname(__FILE__)}/../lib/rule"
+require "#{File.dirname(__FILE__)}/item"
+require "#{File.dirname(__FILE__)}/rule_parser"
 
 class Checkout
 
   def initialize(rules)
-    @items = []
-    @items_hash = {}
-    Rule.add(rules)
+    @items=[]
+    @rp = RuleParser.new(rules)
   end
 
   def scan(item)
-    @items << item if item.class == Item
-    @items_hash[item.code] ||= 0;
-    @items_hash[item.code] += 1;
+    @items.push(item)
     self
   end
 
   def total
-    sum=0
-
-    @items = Rule.match(@items_hash, @items)
-
-    @items.each do |i|
-      sum += i.price
-    end
-
-    sum = Rule.discount(sum)
+    @rp.apply(@items)
   end
 
   def to_s

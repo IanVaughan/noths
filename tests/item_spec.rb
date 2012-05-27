@@ -13,4 +13,10 @@ describe Item, "#init" do
     item.code.should == 10
   end
 
+  # Item.new (x, y, z)
+  # validate code/description (sting)/price (min/max)
+
+  # validate parse of long string
+  # Item.new (a)
+
 end
